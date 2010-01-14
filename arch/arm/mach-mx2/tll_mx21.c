@@ -28,6 +28,7 @@
 #include <linux/mtd/physmap.h>
 #include <linux/gpio.h>
 #include <linux/irq.h>
+#include <linux/smsc911x.h>
 #include <mach/common.h>
 #include <mach/hardware.h>
 #include <asm/mach-types.h>
@@ -181,8 +182,26 @@ static struct resource smsc911x_resources[] = {
 	},
 };
 
+static struct smsc911x_platform_config tllmx21_smsc911x_config = {
+	.irq_polarity	= SMSC911X_IRQ_POLARITY_ACTIVE_LOW,
+	.irq_type	= SMSC911X_IRQ_TYPE_OPEN_DRAIN,
+	.flags		= SMSC911X_USE_32BIT,
+	.phy_interface	= PHY_INTERFACE_MODE_MII,
+};
+
+static struct platform_device smsc911x_device = {
+	.name		= "smsc911x",
+	.id		= 0,
+	.num_resources	= ARRAY_SIZE(smsc911x_resources),
+	.resource	= smsc911x_resources,
+	.dev		= {
+		.platform_data = &tllmx21_smsc911x_config,
+	},
+};
+#endif //SMSC911X
+
 #if defined(CONFIG_USB_IMX21_HCD)
-static struct imx21_usb_platform_data vcmx212_usb_pdata = {
+static struct imx21_usb_platform_data tllmx21_usb_pdata = {
 	.set_mode     = NULL,
 	.set_speed    = NULL,
 	.set_suspend  = NULL,
@@ -194,20 +213,12 @@ static struct platform_device imx_usb_hcd_device = {
 	.name = "imx21-hc",
 	.id   = 0,
 	.dev  = {
-		.platform_data = &vcmx212_usb_pdata,
+		.platform_data = &tllmx21_usb_pdata,
 		.dma_mask = &imx21_usb_dmamask,
 		.coherent_dma_mask = 0xffffffff,
 	}
 };
 #endif
-
-static struct platform_device smsc911x_device = {
-	.name		= "smsc911x",
-	.id		= 0,
-	.num_resources	= ARRAY_SIZE(smsc911x_resources),
-	.resource	= smsc911x_resources,
-};
-#endif //SMSC911X
 
 static struct platform_device *devices[] __initdata = {
 #if defined(CONFIG_SMSC911X)
