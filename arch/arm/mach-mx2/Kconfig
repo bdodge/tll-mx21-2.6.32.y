@@ -102,4 +102,11 @@ config MACH_PCA100
 	  Include support for phyCARD-s (aka pca100) platform. This
 	  includes specific configurations for the module and its peripherals.
 
+config MACH_TLL_MX21
+	bool "TLL MX21 MEZZANINE Board"
+	depends on MACH_MX21
+	help
+	  Include support for TLL MX21 MEZZANINE platform. This
+	  inludes specific configurations for the board and its peripherals.
+		  
 endif

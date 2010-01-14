@@ -36,11 +36,51 @@
 
 #include <linux/smc91x.h>
 
+/* --------------- Set Hardware Capabilities for VCMX212 ---------------- */
+#if defined(CONFIG_MACH_TLL_MX21)
+
+/* We can only do 16-bit reads and writes in the static memory space. */
+#define SMC_CAN_USE_8BIT	0
+#define SMC_CAN_USE_16BIT	1
+#define SMC_CAN_USE_32BIT	0
+#define SMC_NOWAIT		1
+
+#define SMC_inw(a, r)		readw((a) + (r))
+#define SMC_outw(v, a, r)	writew(v, (a) + (r))
+#define SMC_insw(a, r, p, l)	insw((a) + (r), p, l)
+#define SMC_outsw(a, r, p, l)	outsw((a) + (r), p, l)
+
+/* The first two address lines aren't connected... */
+//#define SMC_IO_SHIFT		2
+
+//#define SMC_IOADDR			(VCMX212_ETH_VIRT)
+//#define SMC_IRQ				VCMX212_ETH_IRQ
+
+
+#elif defined(CONFIG_MACH_VCMX212)
+
+/* We can only do 16-bit reads and writes in the static memory space. */
+#define SMC_CAN_USE_8BIT	0
+#define SMC_CAN_USE_16BIT	1
+#define SMC_CAN_USE_32BIT	0
+#define SMC_NOWAIT		1
+
+#define SMC_inw(a, r)		readw((a) + (r))
+#define SMC_outw(v, a, r)	writew(v, (a) + (r))
+#define SMC_insw(a, r, p, l)	insw((a) + (r), p, l)
+#define SMC_outsw(a, r, p, l)	outsw((a) + (r), p, l)
+
+/* The first two address lines aren't connected... */
+//#define SMC_IO_SHIFT		2
+
+//#define SMC_IOADDR			(VCMX212_ETH_VIRT)
+//#define SMC_IRQ				VCMX212_ETH_IRQ
+
 /*
  * Define your architecture specific bus configuration parameters here.
  */
 
-#if defined(CONFIG_ARCH_LUBBOCK) ||\
+#elif defined(CONFIG_ARCH_LUBBOCK) ||\
     defined(CONFIG_MACH_MAINSTONE) ||\
     defined(CONFIG_MACH_ZYLONITE) ||\
     defined(CONFIG_MACH_LITTLETON) ||\

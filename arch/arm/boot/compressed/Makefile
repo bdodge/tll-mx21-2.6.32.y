@@ -48,6 +48,10 @@ else
 endif
 endif
 
+ifeq ($(CONFIG_MACH_TLL_MX21),y)
+OBJS		+= head-tll_mx21.o
+endif
+
 #
 # We now have a PIC decompressor implementation.  Decompressors running
 # from RAM should not define ZTEXTADDR.  Decompressors running directly

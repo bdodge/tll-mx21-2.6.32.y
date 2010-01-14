@@ -342,6 +342,12 @@ config MTD_SOLUTIONENGINE
 	  This enables access to the flash chips on the Hitachi SolutionEngine and
 	  similar boards. Say 'Y' if you are building a kernel for such a board.
 
+config MTD_TLL_MX21
+	tristate "Flash device on TLL MX21 Mezzanine Board"
+	depends on ARM && MTD_CFI && MACH_TLL_MX21
+	help
+	  This enables flash access on the TLL MX21 Mezzanine Board
+
 config MTD_ARM_INTEGRATOR
 	tristate "CFI Flash device mapped on ARM Integrator/P720T"
 	depends on ARM && MTD_CFI
